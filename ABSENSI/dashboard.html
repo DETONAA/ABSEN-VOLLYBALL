@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Volleyball Attendance</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="logo">
+                    <i class="fas fa-volleyball-ball"></i>
+                    <h1>Dashboard Admin</h1>
+                </div>
+                <div class="header-actions">
+                    <span class="admin-welcome">Selamat datang, Administrator</span>
+                    <button class="logout-button" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-container">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <h2>
+                        <i class="fas fa-chart-bar"></i>
+                        Rangkuman Absensi Ekstrakurikuler Bola Voli
+                    </h2>
+                    <div class="date-info">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                </div>
+                <div class="dashboard-summary">
+                    <p>Total data absensi yang tercatat dalam sistem</p>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="dashboard-stats">
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="totalStudents">0</div>
+                    <div class="dashboard-stat-label">Total Siswa</div>
+                </div>
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="totalPresent">0</div>
+                    <div class="dashboard-stat-label">Total Hadir</div>
+                </div>
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="totalPermission">0</div>
+                    <div class="dashboard-stat-label">Total Izin</div>
+                </div>
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="totalSick">0</div>
+                    <div class="dashboard-stat-label">Total Sakit</div>
+                </div>
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="totalAbsent">0</div>
+                    <div class="dashboard-stat-label">Total Alpa</div>
+                </div>
+                <div class="dashboard-stat-card">
+                    <div class="dashboard-stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="dashboard-stat-number" id="attendancePercentage">0%</div>
+                    <div class="dashboard-stat-label">Tingkat Kehadiran</div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="dashboard-content">
+                <!-- Attendance Table -->
+                <div class="attendance-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">
+                            <i class="fas fa-table"></i>
+                            Data Absensi Lengkap
+                        </h3>
+                        <div class="table-filters">
+                            <select id="statusFilter" class="filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="hadir">Hadir</option>
+                                <option value="izin">Izin</option>
+                                <option value="sakit">Sakit</option>
+                                <option value="alpa">Alpa</option>
+                            </select>
+                            <select id="dateFilter" class="filter-select">
+                                <option value="">Semua Tanggal</option>
+                                <option value="today">Hari Ini</option>
+                                <option value="week">Minggu Ini</option>
+                                <option value="month">Bulan Ini</option>
+                            </select>
+                            <input type="text" id="searchInput" class="filter-select" placeholder="Cari nama siswa...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-wrapper">
+                        <table class="attendance-table" id="attendanceTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Status</th>
+                                    <th>Keterangan</th>
+                                    <th>Tanggal</th>
+                                    <th>Waktu</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <tr class="table-loading">
+                                    <td colspan="7">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <br>Memuat data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-pagination" id="tablePagination" style="display: none;">
+                        <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                            Sebelumnya
+                        </button>
+                        <span class="pagination-info" id="paginationInfo">Halaman 1 dari 1</span>
+                        <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
+                            Selanjutnya
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="dashboard-sidebar">
+                    <!-- Export Options -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </h3>
+                        <div class="export-buttons">
+                            <button class="export-button" onclick="exportToCSV()">
+                                <i class="fas fa-file-csv"></i>
+                                Export ke CSV
+                            </button>
+                            <button class="export-button" onclick="exportToExcel()">
+                                <i class="fas fa-file-excel"></i>
+                                Export ke Excel
+                            </button>
+                            <button class="export-button" onclick="exportToPDF()">
+                                <i class="fas fa-file-pdf"></i>
+                                Export ke PDF
+                            </button>
+                            <button class="export-button" onclick="printReport()">
+                                <i class="fas fa-print"></i>
+                                Cetak Laporan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Statistik Cepat
+                        </h3>
+                        <div class="quick-stats">
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Hari Ini</span>
+                                <span class="quick-stat-value" id="todayTotal">0</span>
+                            </div>
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Minggu Ini</span>
+                                <span class="quick-stat-value" id="weekTotal">0</span>
+                            </div>
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Bulan Ini</span>
+                                <span class="quick-stat-value" id="monthTotal">0</span>
+                            </div>
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Rata-rata Harian</span>
+                                <span class="quick-stat-value" id="dailyAverage">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <i class="fas fa-clock"></i>
+                            Aktivitas Terbaru
+                        </h3>
+                        <div class="recent-activity" id="recentActivity">
+                            <div class="activity-loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Memuat aktivitas...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Info -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">
+                            <i class="fas fa-info-circle"></i>
+                            Informasi Sistem
+                        </h3>
+                        <div class="quick-stats">
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Database</span>
+                                <span class="quick-stat-value" id="dbStatus">
+                                    <i class="fas fa-circle" style="color: var(--success);"></i>
+                                    Online
+                                </span>
+                            </div>
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Last Update</span>
+                                <span class="quick-stat-value" id="lastUpdate">-</span>
+                            </div>
+                            <div class="quick-stat">
+                                <span class="quick-stat-label">Version</span>
+                                <span class="quick-stat-value">v1.0.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h3>Berhasil!</h3>
+            </div>
+            <div class="modal-body">
+                <p id="successMessage">Operasi berhasil dilakukan.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                <h3>Terjadi Kesalahan!</h3>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage">Mohon coba lagi dalam beberapa saat.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="admin.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

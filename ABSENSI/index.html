@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Ekstrakurikuler Bola Voli</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-volleyball-ball"></i>
+                    <h1>Volleyball Club</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active">Beranda</a>
+                    <a href="#attendance" class="nav-link">Absensi</a>
+                    <a href="admin/login.html" class="nav-link admin-link">
+                        <i class="fas fa-user-shield"></i>
+                        Admin
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="hero-title">Sistem Absensi Digital</h2>
+                    <h3 class="hero-subtitle">Ekstrakurikuler Bola Voli</h3>
+                    <p class="hero-description">
+                        Platform modern untuk mencatat kehadiran anggota ekstrakurikuler bola voli. 
+                        Mudah, cepat, dan akurat dalam satu sistem terintegrasi.
+                    </p>
+                    <button class="cta-button" onclick="scrollToAttendance()">
+                        <i class="fas fa-clipboard-check"></i>
+                        Mulai Absensi
+                    </button>
+                </div>
+                <div class="hero-image">
+                    <div class="volleyball-animation">
+                        <i class="fas fa-volleyball-ball volleyball-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="totalMembers">0</h3>
+                        <p class="stat-label">Total Anggota</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="todayPresent">0</h3>
+                        <p class="stat-label">Hadir Hari Ini</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="totalSessions">0</h3>
+                        <p class="stat-label">Total Pertemuan</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number" id="attendanceRate">0%</h3>
+                        <p class="stat-label">Tingkat Kehadiran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attendance Section -->
+    <section id="attendance" class="attendance">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Form Absensi</h2>
+                <p class="section-description">Silakan isi form absensi sesuai dengan kehadiran Anda hari ini</p>
+            </div>
+
+            <div class="attendance-content">
+                <div class="attendance-form-container">
+                    <form id="attendanceForm" class="attendance-form">
+                        <div class="form-group">
+                            <label for="studentName" class="form-label">
+                                <i class="fas fa-user"></i>
+                                Nama Siswa
+                            </label>
+                            <input type="text" id="studentName" name="studentName" class="form-input" 
+                                   placeholder="Masukkan nama lengkap" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentClass" class="form-label">
+                                <i class="fas fa-graduation-cap"></i>
+                                Kelas
+                            </label>
+                            <select id="studentClass" name="studentClass" class="form-select" required>
+                                <option value="">Pilih Kelas</option>
+                                <option value="X-1">X-1</option>
+                                <option value="X-2">X-2</option>
+                                <option value="X-3">X-3</option>
+                                <option value="XI-1">XI-1</option>
+                                <option value="XI-2">XI-2</option>
+                                <option value="XI-3">XI-3</option>
+                                <option value="XII-1">XII-1</option>
+                                <option value="XII-2">XII-2</option>
+                                <option value="XII-3">XII-3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-clipboard-check"></i>
+                                Status Kehadiran
+                            </label>
+                            <div class="attendance-options">
+                                <label class="attendance-option">
+                                    <input type="radio" name="attendanceStatus" value="hadir" required>
+                                    <span class="option-content hadir">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Hadir</span>
+                                    </span>
+                                </label>
+                                <label class="attendance-option">
+                                    <input type="radio" name="attendanceStatus" value="izin" required>
+                                    <span class="option-content izin">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Izin</span>
+                                    </span>
+                                </label>
+                                <label class="attendance-option">
+                                    <input type="radio" name="attendanceStatus" value="sakit" required>
+                                    <span class="option-content sakit">
+                                        <i class="fas fa-thermometer-half"></i>
+                                        <span>Sakit</span>
+                                    </span>
+                                </label>
+                                <label class="attendance-option">
+                                    <input type="radio" name="attendanceStatus" value="alpa" required>
+                                    <span class="option-content alpa">
+                                        <i class="fas fa-times-circle"></i>
+                                        <span>Alpa</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="reasonGroup" style="display: none;">
+                            <label for="reason" class="form-label">
+                                <i class="fas fa-comment"></i>
+                                Keterangan
+                            </label>
+                            <textarea id="reason" name="reason" class="form-textarea" 
+                                      placeholder="Masukkan keterangan (opsional)" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-button">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Kirim Absensi</span>
+                            <div class="button-loader" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="attendance-info">
+                    <div class="info-card">
+                        <h3 class="info-title">
+                            <i class="fas fa-info-circle"></i>
+                            Informasi Penting
+                        </h3>
+                        <ul class="info-list">
+                            <li><i class="fas fa-clock"></i> Absensi dibuka setiap hari latihan</li>
+                            <li><i class="fas fa-calendar"></i> Jadwal latihan: Senin, Rabu, Jumat (15:30-17:00)</li>
+                            <li><i class="fas fa-exclamation-triangle"></i> Harap absen sebelum latihan dimulai</li>
+                            <li><i class="fas fa-shield-alt"></i> Data absensi akan tersimpan dengan aman</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3 class="info-title">
+                            <i class="fas fa-question-circle"></i>
+                            Panduan Absensi
+                        </h3>
+                        <div class="guide-steps">
+                            <div class="guide-step">
+                                <span class="step-number">1</span>
+                                <span class="step-text">Isi nama lengkap dan kelas</span>
+                            </div>
+                            <div class="guide-step">
+                                <span class="step-number">2</span>
+                                <span class="step-text">Pilih status kehadiran</span>
+                            </div>
+                            <div class="guide-step">
+                                <span class="step-number">3</span>
+                                <span class="step-text">Tambahkan keterangan jika perlu</span>
+                            </div>
+                            <div class="guide-step">
+                                <span class="step-number">4</span>
+                                <span class="step-text">Klik tombol kirim</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-volleyball-ball"></i>
+                        <span>Volleyball Club</span>
+                    </div>
+                    <p class="footer-description">
+                        Sistem absensi digital untuk ekstrakurikuler bola voli. 
+                        Memudahkan pencatatan kehadiran dengan teknologi modern.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Kontak</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-envelope"></i> volleyball@school.edu</p>
+                        <p><i class="fas fa-phone"></i> (021) 1234-5678</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Sekolah ABC, Jakarta</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Jadwal Latihan</h4>
+                    <div class="schedule">
+                        <p><i class="fas fa-calendar"></i> Senin: 15:30 - 17:00</p>
+                        <p><i class="fas fa-calendar"></i> Rabu: 15:30 - 17:00</p>
+                        <p><i class="fas fa-calendar"></i> Jumat: 15:30 - 17:00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Volleyball Club. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h3>Absensi Berhasil!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Terima kasih, absensi Anda telah tercatat dengan baik.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                <h3>Terjadi Kesalahan!</h3>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage">Mohon coba lagi dalam beberapa saat.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

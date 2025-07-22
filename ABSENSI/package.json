@@ -1,0 +1,35 @@
+{
+  "name": "volleyball-attendance-system",
+  "version": "1.0.0",
+  "description": "Sistem absensi digital untuk ekstrakurikuler bola voli dengan dashboard admin",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l 3000",
+    "build": "echo 'Static site - no build needed'",
+    "dev": "serve -s . -l 3000",
+    "preview": "serve -s . -l 4173"
+  },
+  "keywords": [
+    "attendance",
+    "volleyball",
+    "school",
+    "extracurricular",
+    "supabase",
+    "admin-dashboard"
+  ],
+  "author": "Volleyball Club",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/volleyball-attendance.git"
+  },
+  "homepage": "https://your-username.github.io/volleyball-attendance",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
